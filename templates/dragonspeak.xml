@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE language>
+<language name="Dragonspeak" version="4" kateversion="5.0" section="Scripts" extensions="*.ds" mimetype="text/x-dragonspeak" author="Kyler Eastridge" license="zlib">
+    <highlighting>
+        <contexts>
+            <context attribute="Normal Text" lineEndContext="#pop" name="Normal">
+                <RegExpr attribute="DSHeadFoot" context="#stay" String="DSPK V[0-9]+\.[0-9]+ Furcadia" />
+                <RegExpr attribute="DSHeadFoot" context="#stay" String="\*Endtriggers\* 8888 \*Endtriggers\*" />
+                <DetectChar attribute="Comment" char="*" context="Star comment"/>
+                <RegExpr attribute="Trigger" context="#stay" String="[0-9]+\:[0-9]+" />
+                <RegExpr attribute="Variable" context="#stay" String="\%[a-zA-Z0-9]+" />
+                <RegExpr attribute="Variable" context="#stay" String="\~[a-zA-Z0-9]+" />
+                <DetectChar attribute="String" context="String" char="{"/>
+                <Int attribute="Int" context="#stay">
+                    <StringDetect attribute="Int" String="L" insensitive="true" context="#stay"/>
+                </Int>
+            </context>
+            <context name="Hash comment" attribute="Comment" lineEndContext="#pop">
+                <IncludeRules context="##Alerts" />
+                <IncludeRules context="##Modelines" />
+            </context>
+            <context name="Star comment" attribute="Comment" lineEndContext="#pop">
+                <IncludeRules context="##Alerts" />
+                <IncludeRules context="##Modelines" />
+            </context>
+            <context name="String" attribute="String" lineEndContext="#stay" dynamic="true" >
+                <DetectChar attribute="String" context="#pop" char="}" />
+                <RegExpr attribute="Variable" context="#stay" String="\%[a-zA-Z0-9]+" />
+                <RegExpr attribute="Variable" context="#stay" String="\~[a-zA-Z0-9]+" />
+                <StringDetect String="[FURRE]" insensitive="false" attribute="StringReplacement" context="#stay"/> 
+                <StringDetect String="[FURRE_POS]" insensitive="false" attribute="StringReplacement" context="#stay"/> 
+                <StringDetect String="[DATE]" insensitive="false" attribute="StringReplacement" context="#stay"/> 
+                <StringDetect String="[TIME]" insensitive="false" attribute="StringReplacement" context="#stay"/> 
+                <StringDetect String="[DATETIME]" insensitive="false" attribute="StringReplacement" context="#stay"/> 
+                <StringDetect String="[NICEDATE]" insensitive="false" attribute="StringReplacement" context="#stay"/> 
+                <StringDetect String="[NICETIME]" insensitive="false" attribute="StringReplacement" context="#stay"/> 
+                <StringDetect String="[WDAY]" insensitive="false" attribute="StringReplacement" context="#stay"/> 
+                <StringDetect String="[MONTH]" insensitive="false" attribute="StringReplacement" context="#stay"/> 
+                <StringDetect String="[YEAR]" insensitive="false" attribute="StringReplacement" context="#stay"/> 
+                <StringDetect String="[MDAY]" insensitive="false" attribute="StringReplacement" context="#stay"/> 
+                <StringDetect String="[HOUR]" insensitive="false" attribute="StringReplacement" context="#stay"/> 
+                <StringDetect String="[MIN]" insensitive="false" attribute="StringReplacement" context="#stay"/> 
+                <StringDetect String="[SEC]" insensitive="false" attribute="StringReplacement" context="#stay"/> 
+                <StringDetect String="[OWNER]" insensitive="false" attribute="StringReplacement" context="#stay"/> 
+                <StringDetect String="[YESTERDAY]" insensitive="false" attribute="StringReplacement" context="#stay"/> 
+                <StringDetect String="[LAST_WEEK]" insensitive="false" attribute="StringReplacement" context="#stay"/> 
+                <StringDetect String="[LAST_MONTH]" insensitive="false" attribute="StringReplacement" context="#stay"/> 
+                <StringDetect String="[LAST_QYEAR]" insensitive="false" attribute="StringReplacement" context="#stay"/> 
+                <StringDetect String="[LAST_HYEAR]" insensitive="false" attribute="StringReplacement" context="#stay"/> 
+                <StringDetect String="[LAST_YEAR]" insensitive="false" attribute="StringReplacement" context="#stay"/> 
+                <StringDetect String="[CMD]" insensitive="false" attribute="StringReplacement" context="#stay"/> 
+                <RegExpr String="\[PARAM[0-9]\]" insensitive="false" attribute="StringReplacement" context="#stay"/> 
+            </context>
+        </contexts>
+        <itemDatas>
+            <itemData name="Normal Text" defStyleNum="dsNormal" />
+            <itemData name="String"     defStyleNum="dsString" />
+            <itemData name="Comment" defStyleNum="dsComment" color="#000080" italic="1" />
+            <itemData name="Int" defStyleNum="dsDecVal" spellChecking="false" />
+            <itemData name="Variable" defStyleNum="dsKeyword" spellChecking="false" bold="0" italic="0" color="#800080" />
+            <itemData name="StringVariable" defStyleNum="dsKeyword" spellChecking="false" bold="0" italic="0" color="#0080FF" />
+            <itemData name="Trigger" defStyleNum="dsFunction" color="#008080" />
+            <itemData name="DSHeadFoot" defStyleNum="dsKeyword" color="#008000" />
+            <itemData name="StringReplacement" defStyleNum="dsKeyword" bold="1" color="#800080" />
+        </itemDatas>
+    </highlighting>
+    <general>
+        <folding indentationsensitive="1" />
+        <emptyLines>
+            <emptyLine regexpr="(?:\s+|\s*#.*)"/>
+        </emptyLines>
+        <comments>
+            <comment name="singleLine" start="*" position="afterwhitespace"/>
+        </comments>
+        <indentation mode="python" />
+        <keywords casesensitive="1" additionalDeliminator="#'"/>
+    </general>
+</language>
+
+<!-- kate: indent-width 4; -->

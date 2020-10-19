@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE language>
+<language name="Second Life Inventory" version="4"  kateversion="5.0" section="Other" extensions="*.inv" mimetype="application/vnd.ll.inventory" author="Kyler Eastridge" license="ZLib">
+    <highlighting>
+        <list name="stringvars">
+            <item>name</item>
+            <item>desc</item>
+        </list>
+        <list name="intvars">
+            <item>sale_price</item>
+            <item>creation_date</item>
+        </list>
+        <list name="groupvars">
+            <item>inv_object</item>
+            <item>inv_item</item>
+            <item>permissions</item>
+            <item>sale_info</item>
+        </list>
+        <list name="hexvars">
+            <item>base_mask</item>
+            <item>owner_mask</item>
+            <item>group_mask</item>
+            <item>everyone_mask</item>
+            <item>next_owner_mask</item>
+            <item>flags</item>
+        </list>
+        <list name="keyvars">
+            <item>obj_id</item>
+            <item>item_id</item>
+            <item>parent_id</item>
+            <item>creator_id</item>
+            <item>owner_id</item>
+            <item>last_owner_id</item>
+            <item>group_id</item>
+            <item>shadow_id</item>
+            <item>asset_id</item>
+        </list>
+        <list name="invtypelist">
+            <item>texture</item>
+            <item>sound</item>
+            <item>callcard</item>
+            <item>landmark</item>
+            <item>object</item>
+            <item>notecard</item>
+            <item>category</item>
+            <item>root</item>
+            <item>script</item>
+            <item>snapshot</item>
+            <item>attach</item>
+            <item>wearable</item>
+            <item>animation</item>
+            <item>gesture</item>
+            <item>mesh</item>
+            <item>widget</item>
+            <item>person</item>
+            <item>settings</item>
+        </list>
+        <list name="assettypelist">
+            <item>texture</item>
+            <item>sound</item>
+            <item>callcard</item>
+            <item>landmark</item>
+            <item>script</item>
+            <item>clothing</item>
+            <item>object</item>
+            <item>notecard</item>
+            <item>category</item>
+            <item>lsltext</item>
+            <item>lslbyte</item>
+            <item>txtr_tga</item>
+            <item>bodypart</item>
+            <item>snd_wav</item>
+            <item>img_tga</item>
+            <item>jpeg</item>
+            <item>animatn</item>
+            <item>gesture</item>
+            <item>simstate</item>
+            <item>link</item>
+            <item>link_f</item>
+            <item>mesh</item>
+            <item>widget</item>
+            <item>person</item>
+            <item>settings</item>
+            <item>invalid</item>
+        </list>
+        <list name="saletypelist">
+            <item>not</item>
+            <item>orig</item>
+            <item>copy</item>
+            <item>cntn</item>
+        </list>
+        <contexts>
+            <context attribute="Normal Text" lineEndContext="#pop" name="Normal">
+                <keyword attribute="Property" context="String" String="stringvars" />
+                <keyword attribute="Property" context="UUID" String="keyvars" />
+                <keyword attribute="Property" context="Int" String="intvars" />
+                <keyword attribute="Property" context="Hex" String="hexvars" />
+                <keyword attribute="Property" context="GroupStart" String="groupvars" beginRegion="Group" />
+                <WordDetect attribute="Property" context="InvType" String="inv_type" />
+                <WordDetect attribute="Property" context="SaleType" String="sale_type" />
+                <WordDetect attribute="Property" context="AssetType" String="type" />
+            </context>
+            <context name="String" attribute="String" lineEndContext="#stay" dynamic="true" >
+                <DetectChar attribute="Normal Text" context="#pop" char="|" />
+            </context>
+            <context name="UUID" attribute="Normal Text" lineEndContext="#stay" dynamic="true" >
+                <RegExpr attribute="UUID" context="#pop" String="[0-9a-zA-Z]{8}-[0-9a-zA-Z]{4}-[0-9a-zA-Z]{4}-[0-9a-zA-Z]{4}-[0-9a-zA-Z]{12}" />
+            </context>
+            <context name="Int" attribute="Normal Text" lineEndContext="#stay" dynamic="true" >
+                <RegExpr attribute="Int" context="#pop" String="[0-9]+" />
+            </context>
+            <context name="GroupStart" attribute="Normal Text" lineEndContext="#stay" dynamic="true" >
+                <RegExpr attribute="Int" context="#stay" String="[0-9]+" />
+                <DetectChar attribute="Normal Text" char="{" context="Normal" />
+                <keyword attribute="Property" context="String" String="stringvars" />
+                <keyword attribute="Property" context="UUID" String="keyvars" />
+                <keyword attribute="Property" context="Int" String="intvars" />
+                <keyword attribute="Property" context="Hex" String="hexvars" />
+                <keyword attribute="Property" context="GroupStart" String="groupvars" beginRegion="Group" />
+                <WordDetect attribute="Property" context="InvType" String="inv_type" />
+                <WordDetect attribute="Property" context="SaleType" String="sale_type" />
+                <WordDetect attribute="Property" context="AssetType" String="type" />
+                <DetectChar attribute="Normal Text" char="}" endRegion="Group" context="#pop" />
+            </context>
+            <context name="Hex" attribute="Normal Text" lineEndContext="#stay" dynamic="true" >
+                <RegExpr attribute="Hex" context="#pop" String="[0-9a-zA-Z]+" />
+            </context>
+            <context name="InvType" attribute="Normal Text" lineEndContext="#stay" dynamic="true" >
+                <keyword attribute="String" context="#pop" String="invtypelist" />
+            </context>
+            <context name="SaleType" attribute="Normal Text" lineEndContext="#stay" dynamic="true" >
+                <keyword attribute="String" context="#pop" String="saletypelist" />
+            </context>
+            <context name="AssetType" attribute="Normal Text" lineEndContext="#stay" dynamic="true" >
+                <keyword attribute="String" context="#pop" String="assettypelist" />
+            </context>
+        </contexts>
+        <itemDatas>
+            <itemData name="Normal Text" defStyleNum="dsNormal" />
+            <itemData name="Property" defStyleNum="dsFunction" spellChecking="false" bold="0" italic="0" />
+            <itemData name="String" defStyleNum="dsString" />
+            <itemData name="UUID" defStyleNum="dsString" spellChecking="false" />
+            <itemData name="Hex" defStyleNum="dsBaseN" spellChecking="false" />
+            <itemData name="Int" defStyleNum="dsDecVal" spellChecking="false" />
+        </itemDatas>
+    </highlighting>
+    <general>
+        <emptyLines>
+            <emptyLine regexpr="(?:\s+|\s*#.*)"/>
+        </emptyLines>
+    </general>
+</language>
+
+<!-- kate: indent-width 4; -->
